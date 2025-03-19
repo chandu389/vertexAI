@@ -23,18 +23,15 @@ from google.oauth2 import service_account
 # First load the JSON string
 raw_credentials = st.secrets["gcp"]["credentials"]
 
-
-st.write(raw_credentials)
-
 try:
     # Decode the first level (string to dict)
     decoded_credentials: Dict[str, Any] = json.loads(raw_credentials)
-    st.write("Decoded Credentials:", decoded_credentials)
 except json.JSONDecodeError as e:
     st.error(f"Error decoding JSON: {e}")
     st.stop()
 
 decoded_credentials["private_key"] = st.secrets["gcp"]["private_key"]
+st.write("Decoded Credentials:", decoded_credentials)
 creds = service_account.Credentials.from_service_account_info(decoded_credentials)
 
 vertexai.init(
@@ -46,7 +43,7 @@ llm = VertexAI(
     model="gemini-1.0-pro-002"
 )
 
-embeddings = HuggingFaceEmbeddings()
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 
 vector_store = Chroma(
