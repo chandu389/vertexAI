@@ -34,10 +34,9 @@ except json.JSONDecodeError as e:
     st.error(f"Error decoding JSON: {e}")
     st.stop()
 
+decoded_credentials["private_key"] = st.secrets["gcp"]["private_key"]
 creds = service_account.Credentials.from_service_account_info(decoded_credentials)
-st.write(creds)
-creds["private_key"] = st.secrets["gcp"]["private_key"]
-st.write(creds)
+
 vertexai.init(
     project=credentials["project_id"],
     location="us-central1",
