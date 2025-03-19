@@ -24,11 +24,6 @@ raw_credentials = st.secrets["gcp"]["credentials"]
 
 st.write(raw_credentials)
 
-# Decode the first level (string to dict)
-decoded_credentials = json.loads(raw_credentials)
-
-st.write(decoded_credentials)
-
 try:
     # Decode the first level (string to dict)
     decoded_credentials: Dict[str, Any] = json.loads(raw_credentials)
