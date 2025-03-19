@@ -3,6 +3,7 @@
 
 __import__('pysqlite3')
 import sys
+from typing import Any, Dict
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import json
 import streamlit as st
