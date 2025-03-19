@@ -51,7 +51,8 @@ embeddings = HuggingFaceEmbeddings()
 
 vector_store = Chroma(
     collection_name="test_db", # Collection Name where to store the data .
-    embedding_function=embeddings
+    embedding_function=embeddings,
+    persist_directory="./test_db"
 )
 
 retriver = vector_store.as_retriever(search_type="mmr", search_kwargs={'k':20})
