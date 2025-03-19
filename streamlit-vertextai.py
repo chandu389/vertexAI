@@ -31,7 +31,6 @@ except json.JSONDecodeError as e:
     st.stop()
 
 decoded_credentials["private_key"] = st.secrets["gcp"]["private_key"]
-st.write("Decoded Credentials:", decoded_credentials)
 creds = service_account.Credentials.from_service_account_info(decoded_credentials)
 
 vertexai.init(
