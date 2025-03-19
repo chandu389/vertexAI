@@ -12,3 +12,4 @@ google-cloud-aiplatform
 google-auth
 google-auth-oauthlib
 langchain-huggingface
+torch==1.13.1
