@@ -20,7 +20,16 @@ from google.oauth2 import service_account
 
 # Load credentials from secrets
 st.write(st.secrets)
-credentials = json.loads(st.secrets["gcp"]["credentials"])
+
+# First load the JSON string
+raw_credentials = st.secrets["gcp"]["credentials"]
+
+# Decode the first level (string to dict)
+decoded_credentials = json.loads(raw_credentials)
+
+# Now, decode the actual JSON inside
+credentials = json.loads(decoded_credentials)
+
 creds = service_account.Credentials.from_service_account_info(credentials)
 
 vertexai.init(
