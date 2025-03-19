@@ -2,6 +2,7 @@
 # coding: utf-8
 
 __import__('pysqlite3')
+import asyncio
 import sys
 from typing import Any, Dict
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
@@ -51,7 +52,7 @@ vector_store = Chroma(
     persist_directory="./test_db"
 )
 
-retriver = vector_store.as_retriever(search_type="mmr", search_kwargs={'k':20})
+retriver = vector_store.as_retriever(search_type="mmr", search_kwargs={'k': min(20, vector_store._collection.count())})
 
 
 custom_prompt_template = """
@@ -138,7 +139,11 @@ Please provide the tosca sol001 yaml configuration for the above requirements.
 """)
 
 if st.button("Generate Configuration"):
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        asyncio.set_event_loop(asyncio.new_event_loop())
     chat_history = memory.load_memory_variables({})["chat_history"]
-    response = conv_chain({"question": query, "chat_history": chat_history})
+    response = conv_chain.invoke({"question": query, "chat_history": chat_history})
     st.write("Generated Configuration:")
     st.code(response["answer"], language="yaml")
