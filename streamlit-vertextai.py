@@ -14,6 +14,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from dotenv import load_dotenv
 import vertexai
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,10 +27,7 @@ llm = VertexAI(
     model="gemini-1.0-pro-002"
 )
 
-
-from langchain.embeddings import HuggingFaceEmbeddings
-
-embeddings = HuggingFaceEmbeddings()
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 
 vector_store = Chroma(
