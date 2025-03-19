@@ -37,7 +37,7 @@ except json.JSONDecodeError as e:
     st.error(f"Error decoding JSON: {e}")
     st.stop()
 
-creds = service_account.Credentials.from_service_account_info(credentials)
+creds = service_account.Credentials.from_service_account_info(decoded_credentials)
 
 vertexai.init(
     project=credentials["project_id"],
