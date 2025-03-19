@@ -38,7 +38,7 @@ decoded_credentials["private_key"] = st.secrets["gcp"]["private_key"]
 creds = service_account.Credentials.from_service_account_info(decoded_credentials)
 
 vertexai.init(
-    project=credentials["project_id"],
+    project=decoded_credentials["project_id"],
     location="us-central1",
     credentials=creds
 )
