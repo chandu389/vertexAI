@@ -29,8 +29,13 @@ decoded_credentials = json.loads(raw_credentials)
 
 st.write(decoded_credentials)
 
-# Now, decode the actual JSON inside
-credentials = json.loads(decoded_credentials)
+try:
+    # Decode the first level (string to dict)
+    decoded_credentials: Dict[str, Any] = json.loads(raw_credentials)
+    st.write("Decoded Credentials:", decoded_credentials)
+except json.JSONDecodeError as e:
+    st.error(f"Error decoding JSON: {e}")
+    st.stop()
 
 creds = service_account.Credentials.from_service_account_info(credentials)
 
