@@ -4,6 +4,7 @@
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import json
 import streamlit as st
 from langchain_google_vertexai import VertexAI
 from langchain.prompts import PromptTemplate
@@ -15,13 +16,16 @@ from langchain.chains import ConversationalRetrievalChain
 from dotenv import load_dotenv
 import vertexai
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from google.oauth2 import service_account
 
-# Load environment variables from .env file
-load_dotenv()
+# Load credentials from secrets
+credentials = st.secrets["gcp"]["credentials"]
+creds = service_account.Credentials.from_service_account_info(credentials_dict)
 
 vertexai.init(
-    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    project=credentials["project_id"],
     location="us-central1",
+    credentials=creds
 )
 llm = VertexAI(
     model="gemini-1.0-pro-002"
@@ -32,8 +36,7 @@ embeddings = HuggingFaceEmbeddings()
 
 vector_store = Chroma(
     collection_name="test_db", # Collection Name where to store the data .
-    embedding_function=embeddings,
-    persist_directory="./test_db",  # Where to save data locally, remove if not neccesary
+    embedding_function=embeddings
 )
 
 retriver = vector_store.as_retriever(search_type="mmr", search_kwargs={'k':20})
@@ -123,7 +126,7 @@ Please provide the tosca sol001 yaml configuration for the above requirements.
 """)
 
 if st.button("Generate Configuration"):
-    chat_history = []
+    chat_history = memory.load_memory_variables({})["chat_history"]
     response = conv_chain({"question": query, "chat_history": chat_history})
     st.write("Generated Configuration:")
     st.code(response["answer"], language="yaml")

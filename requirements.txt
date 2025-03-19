@@ -8,3 +8,6 @@ google-cloud-aiplatform
 langchain-community
 sentence-transformers
 pysqlite3-binary
+google-cloud-aiplatform
+google-auth
+google-auth-oauthlib
