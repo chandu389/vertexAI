@@ -18,14 +18,16 @@ import vertexai
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from google.oauth2 import service_account
 
-# Load credentials from secrets
-st.write(st.secrets)
 
 # First load the JSON string
 raw_credentials = st.secrets["gcp"]["credentials"]
 
+st.write(raw_credentials)
+
 # Decode the first level (string to dict)
 decoded_credentials = json.loads(raw_credentials)
+
+st.write(decoded_credentials)
 
 # Now, decode the actual JSON inside
 credentials = json.loads(decoded_credentials)
