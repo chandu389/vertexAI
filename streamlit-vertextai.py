@@ -27,7 +27,7 @@ llm = VertexAI(
     model="gemini-1.0-pro-002"
 )
 
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+embeddings = HuggingFaceEmbeddings()
 
 
 vector_store = Chroma(
