@@ -11,4 +11,4 @@ pysqlite3-binary
 google-cloud-aiplatform
 google-auth
 google-auth-oauthlib
-langchain_huggingface
+langchain-huggingface
