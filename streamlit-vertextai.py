@@ -24,9 +24,6 @@ raw_credentials = st.secrets["gcp"]["credentials"]
 
 
 st.write(raw_credentials)
-# Accessing the private key from secrets
-private_key = raw_credentials["private_key"]
-st.write(private_key)
 
 try:
     # Decode the first level (string to dict)
@@ -37,7 +34,9 @@ except json.JSONDecodeError as e:
     st.stop()
 
 creds = service_account.Credentials.from_service_account_info(decoded_credentials)
-
+st.write(creds)
+creds["private_key"] = st.secrets["gcp"]["private_key"]
+st.write(creds)
 vertexai.init(
     project=credentials["project_id"],
     location="us-central1",
