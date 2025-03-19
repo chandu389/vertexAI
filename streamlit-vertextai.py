@@ -21,10 +21,11 @@ from google.oauth2 import service_account
 
 # First load the JSON string
 raw_credentials = st.secrets["gcp"]["credentials"]
-# Accessing the private key from secrets
-private_key = st.secrets["gcp"]["credentials"]["private_key"]
+
 
 st.write(raw_credentials)
+# Accessing the private key from secrets
+private_key = raw_credentials["private_key"]
 st.write(private_key)
 
 try:
