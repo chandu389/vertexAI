@@ -19,8 +19,8 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from google.oauth2 import service_account
 
 # Load credentials from secrets
-credentials = st.secrets["gcp"]["credentials"]
-creds = service_account.Credentials.from_service_account_info(credentials_dict)
+credentials = json.loads(st.secrets["gcp"]["credentials"])
+creds = service_account.Credentials.from_service_account_info(credentials)
 
 vertexai.init(
     project=credentials["project_id"],
